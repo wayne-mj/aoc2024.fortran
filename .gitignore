@@ -1,0 +1,7 @@
+[Ii]nput[0-9]
+[Ii]nput
+[Tt]est[Ii]nput
+[Tt]est[Ii]nput[0-9]
+*.o
+*.mod
+[Pp]art[0-9]
