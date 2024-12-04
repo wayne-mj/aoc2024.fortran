@@ -31,6 +31,80 @@ module stringmod
         value%right = str2int(temp_str)
     end function string2values
 
+    function str2intarray(str, delim) result(array)
+        character (len=32), intent(in) :: str
+        character (len=1), intent(in) :: delim
+        character (len=32) :: temp_str
+        integer, allocatable :: array (:)
+        integer :: count, i, delimcount, length
+        integer, allocatable :: delimpos(:)
+        
+        delimcount = 0
+        count = 0
+
+        length = len_trim(str)
+
+        do i = 1, length
+            if (str(i:i) .eq. delim) then
+                delimcount = delimcount + 1
+            end if
+        end do
+
+        if (delimcount .gt. 0) then
+            allocate(delimpos(delimcount))
+            allocate(array(delimcount+1))
+            count = 0
+            do i=1,length
+                if (str(i:i) .eq. delim) then
+                    count = count + 1
+                    delimpos(count) = i
+                end if
+            end do
+
+            do i=1,count+1
+                if (i .eq. 1) then
+                    temp_str = str(1:delimpos(i))
+                    array(i) = str2int(temp_str)
+                else 
+                    temp_str = str(delimpos(i-1):delimpos(i))
+                    array(i) = str2int(temp_str)
+                end if
+                
+                if (i .eq. count +1) then
+                    temp_str = str(delimpos(count):length)
+                    array(i) = str2int(temp_str)
+                end if 
+
+                !print *, temp_str
+
+
+                ! if (i .eq. 2) then
+                !     !temp_str = str(2:delimpos(i))
+                !     temp_str = str(delimpos(i-1):delimpos(i))
+                !     array(i) = str2int(temp_str)
+                !     print *, temp_str, " ...(2)... "
+                ! end if
+                ! if (i .eq. 3) then
+                !     !temp_str = str(4:delimpos(i))
+                !     temp_str = str(delimpos(i-1):delimpos(i))
+                !     array(i) = str2int(temp_str)
+                !     print *, temp_str, " ...(3)... "
+                ! end if
+                ! if (i .eq. 4) then
+                !     !temp_str = str(6:delimpos(i))
+                !     temp_str = str(delimpos(i-1):delimpos(i))
+                !     array(i) = str2int(temp_str)
+                !     print *, temp_str, " ...(4)... "
+                ! end if
+                ! if (i .eq. 5) then
+                !     temp_str = str(delimpos(i-1):length)
+                !     array(i) = str2int(temp_str)
+                !     print *, temp_str, " ...(5)... "
+                ! end if                
+            end do
+        end if
+    end function str2intarray
+
     subroutine resizearray(array, newsize)
         integer, allocatable :: array(:)
         integer, intent(in) :: newsize
