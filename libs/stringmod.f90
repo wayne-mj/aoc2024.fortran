@@ -73,34 +73,7 @@ module stringmod
                 if (i .eq. count +1) then
                     temp_str = str(delimpos(count):length)
                     array(i) = str2int(temp_str)
-                end if 
-
-                !print *, temp_str
-
-
-                ! if (i .eq. 2) then
-                !     !temp_str = str(2:delimpos(i))
-                !     temp_str = str(delimpos(i-1):delimpos(i))
-                !     array(i) = str2int(temp_str)
-                !     print *, temp_str, " ...(2)... "
-                ! end if
-                ! if (i .eq. 3) then
-                !     !temp_str = str(4:delimpos(i))
-                !     temp_str = str(delimpos(i-1):delimpos(i))
-                !     array(i) = str2int(temp_str)
-                !     print *, temp_str, " ...(3)... "
-                ! end if
-                ! if (i .eq. 4) then
-                !     !temp_str = str(6:delimpos(i))
-                !     temp_str = str(delimpos(i-1):delimpos(i))
-                !     array(i) = str2int(temp_str)
-                !     print *, temp_str, " ...(4)... "
-                ! end if
-                ! if (i .eq. 5) then
-                !     temp_str = str(delimpos(i-1):length)
-                !     array(i) = str2int(temp_str)
-                !     print *, temp_str, " ...(5)... "
-                ! end if                
+                end if               
             end do
         end if
     end function str2intarray

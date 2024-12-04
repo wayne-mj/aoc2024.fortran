@@ -5,3 +5,7 @@ This is my attempt at the Advent of Code 2024.  For the moment I have chosen to 
 I will be doing this at my own pace, using code snippets that I have written, libraries that I have created and calling on previous projects that I have done for S&G.
 
 All in all, I intend to have fun, bang my head against the keyboard a few times and curse a lot as I already have as code that worked previously did not work this time.
+
+###
+
+I have added in some Python as well because regex is hard in Fortran.
