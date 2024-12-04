@@ -10,6 +10,8 @@ module stringmod
 
     contains
 
+    ! A small function that returns a data type tht is delimited by tabs
+    ! Not my best function but I wrote it in a hurry and on the fly
     function string2values(str) result(value)
         character (len=32), intent(in) :: str
         type(datatype) :: value
@@ -31,6 +33,7 @@ module stringmod
         value%right = str2int(temp_str)
     end function string2values
 
+    ! This is a rewrite of the above and a more complex splitting that used multiple delimiters
     function str2intarray(str, delim) result(array)
         character (len=32), intent(in) :: str
         character (len=1), intent(in) :: delim
@@ -78,6 +81,7 @@ module stringmod
         end if
     end function str2intarray
 
+    ! Subroutine to resize the source array to a new size
     subroutine resizearray(array, newsize)
         integer, allocatable :: array(:)
         integer, intent(in) :: newsize
@@ -93,6 +97,7 @@ module stringmod
         deallocate(temp)
     end subroutine resizearray
 
+    ! As above but when using a data structure
     subroutine resizestructarray(array, newsize)
         type(datatype), allocatable :: array (:), temp(:)
         integer :: newsize
@@ -117,6 +122,8 @@ module stringmod
         !str = trim(str)
     end function int2str
 
+    ! Converts a string to an integer otherwise return a wildly absurd negative number.
+    ! Unless that is what they are looking for - oops!
     function str2int(str) result(i)
         character (len=32), intent(in) :: str
         integer :: i, ioerr
