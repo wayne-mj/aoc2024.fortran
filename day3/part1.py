@@ -4,7 +4,6 @@ total = 0
 with open("input1", "r") as file:
     contents = file.read()
 
-#pattern = r"mul\((\d+),(\d+)\)"
 pattern = r"mul\((\d+),(\d+)\)"
 
 matches = re.findall(pattern, contents)
