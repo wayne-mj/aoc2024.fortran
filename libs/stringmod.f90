@@ -33,6 +33,8 @@ module stringmod
         value%right = str2int(temp_str)
     end function string2values
 
+    !function string2stringarray(str) result(array)
+
     ! This is a rewrite of the above and a more complex splitting that used multiple delimiters
     function str2intarray(str, delim) result(array)
         character (len=32), intent(in) :: str
@@ -96,6 +98,22 @@ module stringmod
 
         deallocate(temp)
     end subroutine resizearray
+
+    ! Subroutine to resize the source array to a new size
+    subroutine resizestringarray(array, newsize)
+        character(len=*), allocatable :: array(:)
+        integer, intent(in) :: newsize
+        character(len=256), allocatable :: temp(:)
+
+        allocate(temp(newsize))
+        if (allocated(array)) then
+            temp(1:size(array)) = array
+            deallocate(array)
+        end if
+        array = temp
+
+        deallocate(temp)
+    end subroutine resizestringarray
 
     ! As above but when using a data structure
     subroutine resizestructarray(array, newsize)
