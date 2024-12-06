@@ -8,6 +8,8 @@ All in all, I intend to have fun, bang my head against the keyboard a few times 
 
 ### Addendum
 
-I have added in some Python as well because regex is hard in Fortran.
+I have added in some Python as well because regex is hard in Fortran.  I really do not understand regex.  
 
-I really do not understand regex.
+There are something that I am still learning in Fortran that I just do not know how to implement.
+
+Right now, I am focusing on what I can do, trying to learn, and I will come back to those that I get stuck on at a later date and try again.
