@@ -2,6 +2,8 @@ module stringmod
     implicit none
     character (len=1) :: tabdelim = '   '
     character (len=1) :: spacedelim = ' '
+    character (len=1) :: commadelim = ','
+    character (len=1) :: pipedelim = "|"
 
     type :: datatype
         integer :: left
