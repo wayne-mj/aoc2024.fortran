@@ -10,7 +10,7 @@ module stringmod
         integer :: right
     end type datatype
 
-    contains
+   contains
 
     ! A small function that returns a data type tht is delimited by tabs
     ! Not my best function but I wrote it in a hurry and on the fly
