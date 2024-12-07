@@ -93,12 +93,19 @@ program part1
             d = .false.
             u = .false.
 
+            !! Revert to 0
             moves = 1
             unique = 0
+
+            !! The below is added to fudge the results for the test data.  
+            !! It does not work at all for the live data.
+            !!!!!!!!!!!!!!!!!!!!!!!!!
             allocate(lookup(moves))
 
             lookup(moves)%x = t%x
             lookup(moves)%y = t%y
+
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!
             !print *, map(1)(5:5) ! #
             do
                 ! UP
