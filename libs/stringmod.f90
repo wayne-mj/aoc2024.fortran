@@ -3,6 +3,7 @@ module stringmod
     character (len=1) :: tabdelim = '   '
     character (len=1) :: spacedelim = ' '
     character (len=1) :: commadelim = ','
+    character (len=1) :: colondelim = ":"
     character (len=1) :: pipedelim = "|"
 
     type :: datatype
@@ -39,9 +40,9 @@ module stringmod
 
     ! This is a rewrite of the above and a more complex splitting that used multiple delimiters
     function str2intarray(str, delim) result(array)
-        character (len=32), intent(in) :: str
+        character (len=128), intent(in) :: str
         character (len=1), intent(in) :: delim
-        character (len=32) :: temp_str
+        character (len=128) :: temp_str
         integer, allocatable :: array (:)
         integer :: count, i, delimcount, length
         integer, allocatable :: delimpos(:)

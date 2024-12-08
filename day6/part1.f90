@@ -10,7 +10,7 @@ program part1
         character (len=1) :: turt
     end type
 
-    integer :: fileid, counter, length, io_err, n , total
+    integer :: fileid, counter, length, io_err, n , total, i, j
     
     character (len=32) :: filename
     character (len=256) :: lines
@@ -48,7 +48,8 @@ program part1
     call locateturtle(grid, turtle)
 
     total = moveturtle(grid, turtle)
-    print *, "x: ", turtle%x, "y: ", turtle%y, "Direction: ", turtle%direction, total
+
+   print *, "x: ", turtle%x, "y: ", turtle%y, "Direction: ", turtle%direction, total
 
     contains
         subroutine locateturtle(map, t)
@@ -82,11 +83,11 @@ program part1
             deallocate(temp)
         end subroutine resizeturtlearray
 
-        function moveturtle(map,t) result(unique)
-            character (len=256), intent(in), allocatable :: map (:)
+        function moveturtle(map,t) result(moves)
+            character (len=256), intent(inout), allocatable :: map (:)
             type (turtletype) :: t
             type (turtletype), allocatable :: lookup(:)
-            integer :: moves, i, unique ,j
+            integer :: moves, i, unique ,j , mapview
             integer :: testposx, testposy 
             logical :: d, u
 
@@ -94,16 +95,16 @@ program part1
             u = .false.
 
             !! Revert to 0
-            moves = 1
+            moves = 0
             unique = 0
 
             !! The below is added to fudge the results for the test data.  
             !! It does not work at all for the live data.
             !!!!!!!!!!!!!!!!!!!!!!!!!
-            allocate(lookup(moves))
+            ! allocate(lookup(moves))
 
-            lookup(moves)%x = t%x
-            lookup(moves)%y = t%y
+            ! lookup(moves)%x = t%x
+            ! lookup(moves)%y = t%y
 
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!
             !print *, map(1)(5:5) ! #
@@ -114,10 +115,17 @@ program part1
                     testposy = t%y-1
                     print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        moves = moves + 1
-                        call resizeturtlearray(lookup,moves)
-                        lookup(moves)%x = testposx
-                        lookup(moves)%y = testposy
+                        ! moves = moves + 1
+                        ! call resizeturtlearray(lookup,moves)
+                        ! lookup(moves)%x = testposx
+                        ! lookup(moves)%y = testposy
+                        if (map(t%y)(t%x:t%x) .ne. "X") then
+                            map(t%y)(t%x:t%x) = "X"
+                            moves = moves + 1
+                        end if
+                        do mapview=1, length
+                            print *, trim(map(mapview))
+                        end do
                         t%y = t%y - 1
                         d = .false.
                     else
@@ -135,10 +143,17 @@ program part1
                     testposy = t%y
                     print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        moves = moves +1
-                        call resizeturtlearray(lookup,moves)
-                        lookup(moves)%x = testposx
-                        lookup(moves)%y = testposy
+                        !moves = moves +1
+                        ! call resizeturtlearray(lookup,moves)
+                        ! lookup(moves)%x = testposx
+                        ! lookup(moves)%y = testposy
+                        if (map(t%y)(t%x:t%x) .ne. "X") then
+                            map(t%y)(t%x:t%x) = "X"
+                            moves = moves + 1
+                        end if
+                        do mapview=1, length
+                            print *, trim(map(mapview))
+                        end do
                         t%x = t%x + 1
                         d = .false.
                     else
@@ -156,10 +171,17 @@ program part1
                     testposy = t%y + 1
                     print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        moves = moves + 1
-                        call resizeturtlearray(lookup,moves)
-                        lookup(moves)%x = testposx
-                        lookup(moves)%y = testposy
+                        !moves = moves + 1
+                        ! call resizeturtlearray(lookup,moves)
+                        ! lookup(moves)%x = testposx
+                        ! lookup(moves)%y = testposy
+                        if (map(t%y)(t%x:t%x) .ne. "X") then
+                            map(t%y)(t%x:t%x) = "X"
+                            moves = moves + 1
+                        end if
+                        do mapview=1, length
+                            print *, trim(map(mapview))
+                        end do
                         t%y = t%y + 1
                         d = .false.
                     else 
@@ -178,10 +200,17 @@ program part1
                     testposy = t%y
                     print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        moves = moves +1
-                        call resizeturtlearray(lookup,moves)
-                        lookup(moves)%x = testposx
-                        lookup(moves)%y = testposy
+                        !moves = moves +1
+                        ! call resizeturtlearray(lookup,moves)
+                        ! lookup(moves)%x = testposx
+                        ! lookup(moves)%y = testposy
+                        if (map(t%y)(t%x:t%x) .ne. "X") then
+                            map(t%y)(t%x:t%x) = "X"
+                            moves = moves + 1
+                        end if
+                        do mapview=1, length
+                            print *, trim(map(mapview))
+                        end do
                         t%x = t%x -1
                         d = .false.
                     else 
