@@ -9,3 +9,5 @@
 *.o
 *.mod
 [Pp]art[0-9]
+[Aa]rt
+[Ar]rt/*

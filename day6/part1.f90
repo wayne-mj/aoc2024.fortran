@@ -86,46 +86,41 @@ program part1
         function moveturtle(map,t) result(moves)
             character (len=256), intent(inout), allocatable :: map (:)
             type (turtletype) :: t
-            type (turtletype), allocatable :: lookup(:)
-            integer :: moves, i, unique ,j , mapview
+            integer :: moves, mapview, mysleep
             integer :: testposx, testposy 
             logical :: d, u
+            character (len=128) :: movestr
 
             d = .false.
             u = .false.
 
+            mysleep = 1
+
             !! Revert to 0
             moves = 0
-            unique = 0
 
-            !! The below is added to fudge the results for the test data.  
-            !! It does not work at all for the live data.
-            !!!!!!!!!!!!!!!!!!!!!!!!!
-            ! allocate(lookup(moves))
-
-            ! lookup(moves)%x = t%x
-            ! lookup(moves)%y = t%y
-
-            !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            !print *, map(1)(5:5) ! #
             do
                 ! UP
                 if (t%direction .eq. 1) then
                     testposx = t%x
                     testposy = t%y-1
-                    print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
+                    !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        ! moves = moves + 1
-                        ! call resizeturtlearray(lookup,moves)
-                        ! lookup(moves)%x = testposx
-                        ! lookup(moves)%y = testposy
                         if (map(t%y)(t%x:t%x) .ne. "X") then
                             map(t%y)(t%x:t%x) = "X"
                             moves = moves + 1
                         end if
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        print *, char(27)//'[2J'
+                        print *, char(27)//'[H'
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
+                        print *, " "
+                        write(movestr, '(I10)') moves
+                        print *, "Moves: ", movestr
+                        call msdelay(mysleep)
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         t%y = t%y - 1
                         d = .false.
                     else
@@ -141,19 +136,23 @@ program part1
                 if (t%direction .eq. 2) then
                     testposx = t%x+1
                     testposy = t%y
-                    print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
+                    !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        !moves = moves +1
-                        ! call resizeturtlearray(lookup,moves)
-                        ! lookup(moves)%x = testposx
-                        ! lookup(moves)%y = testposy
                         if (map(t%y)(t%x:t%x) .ne. "X") then
                             map(t%y)(t%x:t%x) = "X"
                             moves = moves + 1
                         end if
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        print *, char(27)//'[2J'
+                        print *, char(27)//'[H'
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
+                        print *, " "
+                        write(movestr, '(I10)') moves
+                        print *, "Moves: ", movestr
+                        call msdelay(mysleep)
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         t%x = t%x + 1
                         d = .false.
                     else
@@ -169,24 +168,27 @@ program part1
                 if (t%direction .eq. 3) then
                     testposx = t%x
                     testposy = t%y + 1
-                    print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
+                    !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        !moves = moves + 1
-                        ! call resizeturtlearray(lookup,moves)
-                        ! lookup(moves)%x = testposx
-                        ! lookup(moves)%y = testposy
                         if (map(t%y)(t%x:t%x) .ne. "X") then
                             map(t%y)(t%x:t%x) = "X"
                             moves = moves + 1
                         end if
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        print *, char(27)//'[2J'
+                        print *, char(27)//'[H'
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
+                        print *, " "
+                        write(movestr, '(I10)') moves
+                        print *, "Moves: ", movestr
+                        call msdelay(mysleep)
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         t%y = t%y + 1
                         d = .false.
                     else 
                         t%direction = 4
-                        !moves = moves - 1
                         d = .true.
                     end if
                     if ((t%y +1 .gt. size(map) +1) .and. (d .eqv. .false.))then
@@ -198,19 +200,23 @@ program part1
                 if (t%direction .eq. 4) then
                     testposx = t%x -1
                     testposy = t%y
-                    print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
+                    !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        !moves = moves +1
-                        ! call resizeturtlearray(lookup,moves)
-                        ! lookup(moves)%x = testposx
-                        ! lookup(moves)%y = testposy
                         if (map(t%y)(t%x:t%x) .ne. "X") then
                             map(t%y)(t%x:t%x) = "X"
                             moves = moves + 1
                         end if
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        print *, char(27)//'[2J'
+                        print *, char(27)//'[H'
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
+                        print *, " "
+                        write(movestr, '(I10)') moves
+                        print *, "Moves: ", movestr
+                        call msdelay(mysleep)
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         t%x = t%x -1
                         d = .false.
                     else 
@@ -222,28 +228,20 @@ program part1
                     end if
                 end if
             end do
-
-            ! do i=1,size(lookup)
-            !     print *, lookup(i)%x, lookup(i)%y
-            ! end do
-
-            do i=1, size(lookup)
-                do j=1, size(lookup)
-                    !print *, lookup(i)%x,lookup(i)%y
-                    if (i .eq. j) then
-                        !unique = unique + 1
-                        u = .true.
-                    else if ((lookup(i)%x .ne. lookup(j)%x) .and. (lookup(i)%y .ne. lookup(j)%y)) then
-                        !unique = unique +1
-                        u = .true.
-                    else 
-                        u = .false.
-                    end if
-                end do
-                if (u .eqv. .true.) then
-                    unique = unique + 1
-                end if
-            end do
-            
         end function
+
+        subroutine msdelay(delayms)
+            integer :: delayms
+            integer :: start, current, rate
+            real :: ticks_per_ms
+
+            call SYSTEM_CLOCK(COUNT_RATE=rate)
+            ticks_per_ms = real(rate) / 1000.0
+
+            call SYSTEM_CLOCK(COUNT=start)
+            do 
+                call SYSTEM_CLOCK(count=current)
+                if ((current - start) >= delayms * ticks_per_ms) exit                
+            end do
+        end subroutine
 end program part1
