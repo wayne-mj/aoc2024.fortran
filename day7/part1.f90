@@ -7,7 +7,7 @@ program part1
     character (len=128) :: lines, filename
 
     !character (len=1) :: op(2) = (/"+","*"/)
-
+    
     integer :: answer, total, e,o, bal
     integer, allocatable :: elements (:)
         
@@ -29,21 +29,23 @@ program part1
             elements = findelements(lines)
             print *, answer, ": ", elements
             
-            total = 0
-            do o=1,2                
-                do e=1, size(elements)
-                    if (o .eq. 1) then
-                        total = total + elements(e)
-                        print *, total
-                    else if (o .eq. 2) then
-                        total = total * elements(e)
-                        print *, total
-                    end if
-                end do
-                if (total .eq. answer) then
-                    bal = bal + answer
-                end if
-            end do
+            
+            ! do e=2,size(elements)                
+            !     do o=1, 2
+            !         total = elements(1)
+            !         if (o .eq. 1) then
+            !             total = total + elements(e)
+            !             print *, total
+            !         else if (o .eq. 2) then
+            !             total = total * elements(e)
+            !             print *, total
+            !         end if
+            !     end do
+            !     if (total .eq. answer) then
+            !         bal = bal + answer
+            !     end if
+            ! end do
+            ! bal = bruteforce(elements, answer)
         end do
     end if
     close(unit=fileid)
@@ -89,4 +91,37 @@ program part1
         tempstr = trim(s(colonpos+2:length))
         e = str2intarray(tempstr,spacedelim)
     end function
+
+    ! function bruteforce (ele, ans) result(bal)
+    !     integer, intent(in), allocatable :: ele(:)
+    !     integer, intent(in) :: ans
+    !     integer :: bal
+    !     integer :: num_elements, ltotal, lo,e, num_ops, op_set
+    !     integer, allocatable :: ops (:)
+
+    !     total = 0
+    !     num_elements = size(ele)
+    !     allocate(ops(num_elements))
+    !     num_ops = size(ele) - 1
+        
+    !     do op_set = 0, 2**num_ops -1
+    !         ops = 0
+    !         do e = 1, num_ops
+    !             print *, e
+    !             ops(e) = mod(op_set / 2**(e-2),2) +1
+    !             print *, mod(op_set / 2**(e-2),2) +1
+    !         end do
+
+    !         total = ele(1)
+    !         do e=1,num_ops
+    !             if (ops(e) ==1) then
+    !                 total = total + ele(e+1)
+    !             else if (ops(e) ==2) then
+    !                 total = total * ele(e+1)
+    !             end if
+    !         end do
+    !         print *, total
+    !     end do
+        
+    ! end function
 end program part1
