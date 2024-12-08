@@ -10,7 +10,7 @@ program part1
         character (len=1) :: turt
     end type
 
-    integer :: fileid, counter, length, io_err, n , total, i, j
+    integer :: fileid, counter, length, io_err, n , total
     
     character (len=32) :: filename
     character (len=256) :: lines
