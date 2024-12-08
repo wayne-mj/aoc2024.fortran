@@ -6,15 +6,16 @@ program part1
     integer :: fileid, io_err
     character (len=128) :: lines, filename
 
-    integer :: answer, total, j,k, bal
+    !character (len=1) :: op(2) = (/"+","*"/)
+
+    integer :: answer, total, e,o, bal
     integer, allocatable :: elements (:)
         
     filename = "testinput1.txt"
     fileid = 8
     bal =0
     total = 0
-    
-
+   
     open (unit=fileid, file=filename, status='old', action='read', iostat=io_err)
     if (io_err .ne. 0) then
         print *, "File error occurred", io_err
@@ -27,24 +28,22 @@ program part1
             answer = findanswer(lines)
             elements = findelements(lines)
             print *, answer, ": ", elements
-            ! do j=2, size(elements)
-            !     do k=1,2
-            !         total = elements(1)
-            !         if (k .eq. 1) then
-            !             total = total + elements(j)
-            !             print *, total
-            !         else if (k .eq. 2) then
-            !             total = total * elements(j)
-            !             print *, total
-            !         end if
-            !     end do
-            !     if (total .eq. answer) then
-            !         exit
-            !     end if                 
-            ! end do
-            ! if (total .eq. answer) then
-            !     bal = bal + answer
-            ! end if
+            
+            total = 0
+            do o=1,2                
+                do e=1, size(elements)
+                    if (o .eq. 1) then
+                        total = total + elements(e)
+                        print *, total
+                    else if (o .eq. 2) then
+                        total = total * elements(e)
+                        print *, total
+                    end if
+                end do
+                if (total .eq. answer) then
+                    bal = bal + answer
+                end if
+            end do
         end do
     end if
     close(unit=fileid)

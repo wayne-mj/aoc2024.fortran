@@ -1,6 +1,6 @@
 program part1
-    !use mergesortmod
     use stringmod
+    use timemod
 
     implicit none
 
@@ -17,7 +17,7 @@ program part1
     character(len=256), allocatable :: grid(:)
     type(turtletype) :: turtle
         
-    filename = "input1.txt"
+    filename = "testinput1.txt"
     fileid = 8
     counter = 0
     n = 0
@@ -68,20 +68,20 @@ program part1
             end do
         end subroutine
 
-        ! As above but when using a data structure
-        subroutine resizeturtlearray(array, newsize)
-            type(turtletype), allocatable :: array (:), temp(:)
-            integer :: newsize
+        ! ! As above but when using a data structure
+        ! subroutine resizeturtlearray(array, newsize)
+        !     type(turtletype), allocatable :: array (:), temp(:)
+        !     integer :: newsize
 
-            allocate(temp(newsize))
-            if (allocated(array)) then
-                temp(1:size(array)) = array
-                deallocate(array)
-            end if
+        !     allocate(temp(newsize))
+        !     if (allocated(array)) then
+        !         temp(1:size(array)) = array
+        !         deallocate(array)
+        !     end if
 
-            array = temp
-            deallocate(temp)
-        end subroutine resizeturtlearray
+        !     array = temp
+        !     deallocate(temp)
+        ! end subroutine resizeturtlearray
 
         function moveturtle(map,t) result(moves)
             character (len=256), intent(inout), allocatable :: map (:)
@@ -94,7 +94,7 @@ program part1
             d = .false.
             u = .false.
 
-            mysleep = 1
+            mysleep = 10
 
             !! Revert to 0
             moves = 0
@@ -230,18 +230,18 @@ program part1
             end do
         end function
 
-        subroutine msdelay(delayms)
-            integer :: delayms
-            integer :: start, current, rate
-            real :: ticks_per_ms
+        ! subroutine msdelay(delayms)
+        !     integer :: delayms
+        !     integer :: start, current, rate
+        !     real :: ticks_per_ms
 
-            call SYSTEM_CLOCK(COUNT_RATE=rate)
-            ticks_per_ms = real(rate) / 1000.0
+        !     call SYSTEM_CLOCK(COUNT_RATE=rate)
+        !     ticks_per_ms = real(rate) / 1000.0
 
-            call SYSTEM_CLOCK(COUNT=start)
-            do 
-                call SYSTEM_CLOCK(count=current)
-                if ((current - start) >= delayms * ticks_per_ms) exit                
-            end do
-        end subroutine
+        !     call SYSTEM_CLOCK(COUNT=start)
+        !     do 
+        !         call SYSTEM_CLOCK(count=current)
+        !         if ((current - start) >= delayms * ticks_per_ms) exit                
+        !     end do
+        ! end subroutine
 end program part1
