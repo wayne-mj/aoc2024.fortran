@@ -73,7 +73,7 @@ program part1
         character(len=128), intent(in) :: indatagram
         character(len=128) :: outdatagram, tempdatagram, cdatagram
         character(len=1) :: tempstr
-        integer :: inlength, outlength, templength, i, j, count
+        integer :: inlength, outlength, templength, i, j, count, dotcount, cdot, k
         logical :: contig
 
         tempdatagram = ""
@@ -81,19 +81,21 @@ program part1
         outdatagram = ""
         count = 1
         contig = .false.
+        dotcount = 0
+        cdot = 0
 
         inlength = len_trim(indatagram)
         tempdatagram = trim(indatagram)
         
-        ! do i=1,inlength
-        !     if (tempdatagram(i:i) .eq. ".") then
-        !         tempdatagram(i:i) = " "
-        !     end if
-        ! end do
+        do i=1,inlength
+            if (tempdatagram(i:i) .eq. ".") then
+                dotcount = dotcount + 1
+            end if
+        end do
 
         cdatagram = tempdatagram
 
-        print *, tempdatagram
+        !print *, "Tempdatagram:", tempdatagram, "Length:", inlength
 
         do i=inlength,1 ,-1
             if (tempdatagram(i:i) .ne.  ".") then
@@ -102,7 +104,19 @@ program part1
                     if (cdatagram(j:j) .eq. ".") then
                         cdatagram(j:j) = trim(tempstr)
                         cdatagram(i:i) = "."
-                        print *, cdatagram, i, j
+                        print *, trim(cdatagram), i, j
+                        do k=(inlength-dotcount)+2,inlength
+                            !print *, "Pos:", cdatagram(k:k)
+                            if ((cdatagram(k:k) .eq. ".") .and. (cdot .eq. dotcount)) then
+                                contig = .true.
+                                cdot = cdot + 1
+                            else 
+                                contig = .false.
+                            end if
+                        end do
+                        exit
+                    end if
+                    if (contig .eqv. .true.) then
                         exit
                     end if
                 end do
