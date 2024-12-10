@@ -7,7 +7,7 @@ program part1
     integer :: fileid, io_err
     character (len=32) :: lines, filename
         
-    filename = "input1"
+    filename = "testinput1.txt"
     fileid = 8
     
 
