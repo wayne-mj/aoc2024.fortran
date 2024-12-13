@@ -73,9 +73,9 @@ program part1
         a = str2int(tempstr)
     end function
     
-    function findelements(s) result(e)
+    function findelements(s) result(et)
         character (len=128), intent(in) :: s
-        integer, allocatable :: e(:)
+        integer, allocatable :: et(:)
         character (len=128) :: tempstr
         integer :: length, i, colonpos
 
@@ -89,7 +89,7 @@ program part1
         end do
 
         tempstr = trim(s(colonpos+2:length))
-        e = str2intarray(tempstr,spacedelim)
+        et = str2intarray(tempstr,spacedelim)
     end function
 
     ! function bruteforce (ele, ans) result(bal)
