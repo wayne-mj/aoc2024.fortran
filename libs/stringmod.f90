@@ -40,7 +40,7 @@ module stringmod
 
     ! This is a rewrite of the above and a more complex splitting that used multiple delimiters
     function str2intarray(str, delim) result(array)
-        character (len=128), intent(in) :: str
+        character (len=*), intent(in) :: str
         character (len=1), intent(in) :: delim
         character (len=128) :: temp_str
         integer, allocatable :: array (:)
@@ -51,6 +51,7 @@ module stringmod
         count = 0
 
         length = len_trim(str)
+        !print *, "stringmod: length: ", length, " str:", str
 
         do i = 1, length
             if (str(i:i) .eq. delim) then
@@ -72,14 +73,17 @@ module stringmod
             do i=1,count+1
                 if (i .eq. 1) then
                     temp_str = str(1:delimpos(i))
+                    !print *, "stringmod: temp_str: ", temp_str
                     array(i) = str2int(temp_str)
                 else 
                     temp_str = str(delimpos(i-1):delimpos(i))
+                    !print *, "stringmod: temp_str: ", temp_str
                     array(i) = str2int(temp_str)
                 end if
                 
                 if (i .eq. count +1) then
                     temp_str = str(delimpos(count):length)
+                    !print *, "stringmod: temp_str: ", temp_str
                     array(i) = str2int(temp_str)
                 end if               
             end do

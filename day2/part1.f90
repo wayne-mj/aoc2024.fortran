@@ -1,23 +1,24 @@
 program part1
-    !use mergesortmod
     use stringmod
 
     implicit none
 
-    integer :: fileid, count, io_err, n, i, total, last
-    character (len=32) :: lines, filename
+    integer :: fileid, count, io_err
+    character (len=128) :: lines, filename
     integer, allocatable :: left(:)
-    logical :: safe, up,down
-    !character (len=32) :: myArray(:), tempArray
-    
-    filename = "input1"
+    logical :: mysafe
+      
     fileid = 8
     count = 0
-    n = 0
-    last = 0
-    safe = .false.
-    up = .false.
-    down = .false.
+    mysafe = .false.
+   
+    call get_command_argument(1, filename, STATUS=io_err)
+    if (io_err .ne. 0) then
+        print *, "Usage: provide a filename."
+        stop
+    else 
+        print *, "Using: ", trim(filename)
+    end if
    
 
     open (unit=fileid, file=filename, status='old', action='read', iostat=io_err)
@@ -30,55 +31,54 @@ program part1
             if (io_err .ne. 0) exit
             print *, lines
             left = str2intarray(lines,spacedelim)
-            n = size(left)
-            
-            do i=1,n-1
-                !print *, left(i), left(i+1)
+            mysafe = issafe(left)
 
-                if (left(i) .eq. left(i+1)) then
-                    print *, "Failed because of same value"
-                    safe = .false.
-                    exit
-                end if
-
-                if (left(i) .gt. left(i+1)) then
-                    up = .true.
-                end if
-
-                if (left(i) .lt. left(i+1)) then
-                    down = .true.
-                end if
-
-                if (up .eqv. down) then
-                    print *, "Failed because change of direction"
-                    safe = .false.
-                    exit
-                end if
-
-                total = left(i) - left(i+1)
-
-                print *, total, abs(total)
-                if (abs(total) .gt. 3) then
-                    print *, "Failed because of change of step"
-                    safe = .false.
-                    exit
-                end if
-                
-                safe = .true.
-            end do
-            
-            print *, safe
-            if (safe .eqv. .true.) then
-                count = count + 1
+            if (mysafe .eqv. .true.) then
+                count = count +1
             end if
-
-            safe = .false.
-            up = .false.
-            down = .false.
         end do
     end if
     close(unit=fileid)
 
     print *, "Counted as safe: ", count
+
+    contains
+
+    function issafe(reports) result(result)
+        integer, intent(in), allocatable :: reports (:)
+        logical :: result
+        logical :: up, down, safe
+        integer :: i, n, diffreport
+
+        safe = .false.
+        up = .false.
+        down = .false.
+        n = size(reports)
+        
+        do i=1, n-1
+            diffreport = reports(i) - reports(i+1)
+
+            if ((diffreport .eq. 0) .or. (abs(diffreport) .gt. 3)) then
+                safe = .false.
+                exit
+            end if
+
+            if (reports(i) .gt. reports(i+1)) then
+                up = .true.
+            end if
+
+            if (reports(i) .lt. reports(i+1)) then
+                down = .true.
+            end if
+
+            if (up .eqv. down) then
+                safe = .false.
+                exit
+            end if
+            safe = .true.
+        end do
+
+        result = safe
+    end function
 
 end program part1

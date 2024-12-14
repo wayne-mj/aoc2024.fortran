@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 // Console.WriteLine("Hello, World!");
 
-//string path = "../input1";
-string path = "../testinput.txt";
+string path = "../input1";
+//string path = "../testinput.txt";
 int safecount = 0;
 
 string[] str = {};
