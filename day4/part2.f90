@@ -1,5 +1,4 @@
 program part1
-    !use mergesortmod
     use stringmod
 
     implicit none
@@ -10,11 +9,19 @@ program part1
     character (len=256) :: lines
     character(len=256), allocatable :: grid(:)
         
-    filename = "input1.txt"
+    filename = ""
     fileid = 8
     counter = 0
     n = 0
     xmascounter = 0
+
+    call get_command_argument(1, filename, STATUS=io_err)
+    if (io_err .ne. 0) then
+        print *, "Usage: provide a filename."
+        stop
+    else 
+        print *, "Using: ", trim(filename)
+    end if
 
     allocate(grid(counter))    
     open (unit=fileid, file=filename, status='old', action='read', iostat=io_err)

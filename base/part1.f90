@@ -7,8 +7,16 @@ program part1
     integer :: fileid, io_err
     character (len=32) :: lines, filename
         
-    filename = "testinput1.txt"
+    filename = ""
     fileid = 8
+
+    call get_command_argument(1, filename, STATUS=io_err)
+    if (io_err .ne. 0) then
+        print *, "Usage: provide a filename."
+        stop
+    else 
+        print *, "Using: ", trim(filename)
+    end if
     
 
     open (unit=fileid, file=filename, status='old', action='read', iostat=io_err)
