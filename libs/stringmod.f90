@@ -160,4 +160,28 @@ module stringmod
         end if
     end function str2int
 
+    function str2int8(str) result(i)
+        character (len=32), intent(in) :: str
+        integer(8) :: i
+        integer :: ioerr
+
+        read (str, '(I19)', iostat=ioerr) i
+
+        if (ioerr .ne. 0) then
+            i = -huge(i)
+        end if
+    end function str2int8
+
+    function str2int16(str) result(i)
+        character (len=64), intent(in) :: str
+        integer(8) :: i
+        integer :: ioerr
+
+        read (str, '(I39)', iostat=ioerr) i
+
+        if (ioerr .ne. 0) then
+            i = -huge(i)
+        end if
+    end function str2int16
+
 end module stringmod
