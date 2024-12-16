@@ -5,16 +5,22 @@ program part1
 
     integer :: fileid, io_err
     character (len=128) :: lines, filename
-
-    !character (len=1) :: op(2) = (/"+","*"/)
     
-    integer :: answer, total, e,o, bal
-    integer, allocatable :: elements (:)
+    integer(8) :: answer, total, o, bal
+    integer(8), allocatable :: elements (:)
         
-    filename = "testinput1.txt"
+    filename = ""
     fileid = 8
     bal =0
     total = 0
+
+    call get_command_argument(1, filename, STATUS=io_err)
+    if (io_err .ne. 0) then
+        print *, "Usage: provide a filename."
+        stop
+    else 
+        print *, "Using: ", trim(filename)
+    end if
    
     open (unit=fileid, file=filename, status='old', action='read', iostat=io_err)
     if (io_err .ne. 0) then
@@ -28,24 +34,10 @@ program part1
             answer = findanswer(lines)
             elements = findelements(lines)
             print *, answer, ": ", elements
-            
-            
-            ! do e=2,size(elements)                
-            !     do o=1, 2
-            !         total = elements(1)
-            !         if (o .eq. 1) then
-            !             total = total + elements(e)
-            !             print *, total
-            !         else if (o .eq. 2) then
-            !             total = total * elements(e)
-            !             print *, total
-            !         end if
-            !     end do
-            !     if (total .eq. answer) then
-            !         bal = bal + answer
-            !     end if
-            ! end do
-            ! bal = bruteforce(elements, answer)
+            o = size(elements)  
+            if (checkpath(answer, elements, o)) then
+                bal = bal + answer
+            end if
         end do
     end if
     close(unit=fileid)
@@ -55,7 +47,7 @@ program part1
     contains
     function findanswer(s) result(a)
         character (len=128), intent(in) :: s
-        integer :: a
+        integer(8) :: a
         character (len=128) :: tempstr
         integer :: length, i, colonpos
 
@@ -70,12 +62,12 @@ program part1
         end do
 
         tempstr = s(1:colonpos-1)
-        a = str2int(tempstr)
+        a = str2int8(tempstr)
     end function
     
-    function findelements(s) result(et)
+    function findelements(s) result(e)
         character (len=128), intent(in) :: s
-        integer, allocatable :: et(:)
+        integer(8), allocatable :: e(:)
         character (len=128) :: tempstr
         integer :: length, i, colonpos
 
@@ -89,39 +81,43 @@ program part1
         end do
 
         tempstr = trim(s(colonpos+2:length))
-        et = str2intarray(tempstr,spacedelim)
+        e = str2intarray(tempstr,spacedelim)
     end function
 
-    ! function bruteforce (ele, ans) result(bal)
-    !     integer, intent(in), allocatable :: ele(:)
-    !     integer, intent(in) :: ans
-    !     integer :: bal
-    !     integer :: num_elements, ltotal, lo,e, num_ops, op_set
-    !     integer, allocatable :: ops (:)
+    recursive function checkpath (left, right, num_elements) result(results)
+        integer(8), intent(in) :: left, num_elements
+        integer(8), intent(in) :: right (:)
+        logical :: results
+        logical :: r
+        integer(8) :: i, rightside
 
-    !     total = 0
-    !     num_elements = size(ele)
-    !     allocate(ops(num_elements))
-    !     num_ops = size(ele) - 1
-        
-    !     do op_set = 0, 2**num_ops -1
-    !         ops = 0
-    !         do e = 1, num_ops
-    !             print *, e
-    !             ops(e) = mod(op_set / 2**(e-2),2) +1
-    !             print *, mod(op_set / 2**(e-2),2) +1
-    !         end do
+        i = num_elements
 
-    !         total = ele(1)
-    !         do e=1,num_ops
-    !             if (ops(e) ==1) then
-    !                 total = total + ele(e+1)
-    !             else if (ops(e) ==2) then
-    !                 total = total * ele(e+1)
-    !             end if
-    !         end do
-    !         print *, total
-    !     end do
-        
-    ! end function
+        if (i .eq. 1) then
+            results = (left .eq. right(1))
+            return
+        end if
+
+        rightside = right(i)
+        i = i - 1
+
+        if (mod(left, rightside) .eq. 0) then
+            r = checkpath(left / rightside , right, i)
+            if (r) then
+                results = .true.
+                return
+            end if
+        end if
+
+        if (left .ge. rightside) then
+            r = checkpath (left - rightside, right, i)
+            if (r) then
+                results = .true.
+                return
+            end if
+        end if
+
+        results = .false.   
+    end function
+    
 end program part1
