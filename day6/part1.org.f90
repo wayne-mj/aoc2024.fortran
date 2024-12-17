@@ -17,20 +17,12 @@ program part1
     character(len=256), allocatable :: grid(:)
     type(turtletype) :: turtle
         
-    filename = ""
+    filename = "testinput1.txt"
     fileid = 8
     counter = 0
     n = 0
     length = 0
     total = 0
-
-    call get_command_argument(1, filename, STATUS=io_err)
-    if (io_err .ne. 0) then
-        print *, "Usage: provide a filename."
-        stop
-    else 
-        print *, "Using: ", trim(filename)
-    end if
 
     allocate(grid(counter))    
     open (unit=fileid, file=filename, status='old', action='read', iostat=io_err)
