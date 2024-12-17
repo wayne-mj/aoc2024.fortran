@@ -4,59 +4,62 @@ program part1
 
     implicit none
 
-    integer :: fileid, counter, length, n, i, total, in, out
-    integer :: rs, bs, us
+    integer :: fileid, ierr
     character (len=32) :: filename
-    character (len=256), allocatable :: lines(:)
-    integer, allocatable :: rules(:), updateset(:), ruleset(:,:)
+    character(len=128), allocatable :: ruleset(:), updateset(:)
+    integer :: rules, updates , i ,j , k , mid, t
+    integer, allocatable :: setofrules(:,:)
+    integer, allocatable :: setofupdates (:)
+    logical :: match
     
-    filename = "testinput1.txt"
+    filename = ""
     fileid = 8
+    match = .false.
+    mid =0
 
-    counter = 0
-    rs = 0
-    bs = 0
-    us = 0
-    n = 0
-    i = 0
-    length = 0
-    total = 0
-    allocate(lines(counter))
-    
-    call getsetsize()
+    call get_command_argument(1, filename, STATUS=ierr)
+    if (ierr .ne. 0) then
+        print *, "Usage: provide a filename."
+        stop
+    else 
+        print *, "Using: ", trim(filename)
+    end if
 
-    allocate(ruleset(rs,2))
-    
-    print *, rs, us, bs
+    call getsetsize(ruleset, updateset, rules, updates)
+    setofrules = makerules(ruleset, rules)
 
-    ! Rulesets
-    do i=1,rs
-        rules = str2intarray(lines(i), pipedelim)
-        ruleset(i,1) = rules(1)
-        ruleset(i,2) = rules(2) 
-    end do
-
-    print *, " *** "
-
-    ! Updates
-    do i=(rs+bs),size(lines)
-        !print *, trim(lines(i))
-        updateset = str2intarray(lines(i), commadelim)
-        do out=1, size(ruleset)
-            do in=1, size(ruleset)
-                
+    do k=1, updates
+        setofupdates = str2intarray(updateset(k),commadelim)
+        print *, setofupdates
+        do i=1, size(setofupdates) -1
+            do j=1, (size(setofrules) / 2)
+                if (all(setofrules(:,j) .eq. [setofupdates(i+1), setofupdates(i)]))then
+                    match = .true.
+                end if
             end do
         end do
+        print *, match
+        if (.not. match) then
+            t = (size(setofupdates) /2) +1
+            mid = mid + setofupdates(t)
+            print *,mid
+            match = .false.
+        end if
     end do
 
+    print *, mid
 
     contains
-        subroutine getsetsize()
-            logical :: processrules
-            integer :: io_err
-            character (len=256) :: line
+        subroutine getsetsize(rs, us, ri, ui)
+            character(len=128), intent(inout), allocatable :: rs(:), us(:)
+            integer, intent(inout) :: ri, ui
+            integer :: io_err 
+            character (len=128) :: line            
 
-            processrules = .true.
+            ri = 0
+            ui = 0
+            allocate(rs(ri))
+            allocate(us(ui))
             open (unit=fileid, file=filename, status='old', action='read', iostat=io_err)
             if (io_err .ne. 0) then
                 print *, "File error occurred", io_err
@@ -65,26 +68,40 @@ program part1
                 do 
                     read (unit = fileid, fmt='(A)', iostat=io_err) line
                     if (io_err .ne. 0) exit
-                    counter = counter + 1
-                    call resizestringarray(lines, counter)
-                    lines(counter) = trim(line)
-                    !print *, len_trim(lines)
-                    if ((len_trim(line) .ne. 0) .and. (processrules .eqv. .true.))then
-                        print *, "Processing rules..."
-                        !rules = str2intarray(lines,pipedelim)
-                        rs = rs + 1
-                    else if ( len_trim(line) .eq. 0 ) then
-                        print *, "Ignoring the blank line..."
-                        bs = bs + 1
-                        processrules = .false.
-                    else 
-                        print *, "Processing updates..."
-                        !updates = str2intarray(lines, commadelim)
-                        us = us + 1            
+                    if (containschar(line,pipedelim)) then
+                        ri = ri + 1
+                        call resizestringarray(rs,ri)
+                        rs(ri) = line
+                        !print *, ri, rs(ri)
                     end if
+                    if (containschar(line,newline)) then
+                        print *, "new line encountered"
+                    end if
+                    if (containschar(line,commadelim)) then
+                        ui = ui + 1
+                        call resizestringarray(us, ui)
+                        us(updates) = line
+                        !print *, ui, us(ui)
+                    end if                 
                 end do
             end if
             close(unit=fileid)
         end subroutine
+
+        function makerules(rulesetstr, rulesize) result(rulesetint)
+            character(len=128), intent(in), allocatable :: rulesetstr (:)
+            integer, intent(in) :: rulesize
+            integer, allocatable :: rulesetint (:,:)
+            integer, allocatable :: tempint(:)
+            integer :: i
+
+            allocate(rulesetint(rulesize,2))
+            do i=1,rulesize
+                tempint = str2intarray(rulesetstr(i),pipedelim)
+                ! Reverse the order of the rule set
+                rulesetint(i,2) = tempint(1)
+                rulesetint(i,1) = tempint(2)
+            end do
+        end function
     
 end program part1

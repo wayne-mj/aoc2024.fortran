@@ -1,6 +1,8 @@
 module stringmod
     implicit none
-    character (len=1) :: tabdelim = '   '
+    character (len=1), parameter :: tabdelim = char(9)
+    character (len=1), parameter :: newline = char(10)
+    character (len=1), parameter :: cr = char(13)
     character (len=1) :: spacedelim = ' '
     character (len=1) :: commadelim = ','
     character (len=1) :: colondelim = ":"
@@ -16,11 +18,15 @@ module stringmod
     ! A small function that returns a data type tht is delimited by tabs
     ! Not my best function but I wrote it in a hurry and on the fly
     function string2values(str) result(value)
-        character (len=32), intent(in) :: str
+        character (len=*), intent(in) :: str
         type(datatype) :: value
         integer :: i, tabpos, length
-        character (len=16) :: temp_str
+        character (len=128) :: temp_str
 
+        i = 0
+        tabpos = 0
+        length =0
+        temp_str = ""
         length = len_trim(str)
 
         do i=1, length
@@ -72,18 +78,18 @@ module stringmod
 
             do i=1,count+1
                 if (i .eq. 1) then
-                    temp_str = str(1:delimpos(i))
-                    !print *, "stringmod: temp_str: ", temp_str
+                    temp_str = str(1:delimpos(i)-1)
+                    !print *, "stringmod: temp_str: ", temp_str, " i: ", i
                     array(i) = str2int(temp_str)
                 else 
-                    temp_str = str(delimpos(i-1):delimpos(i))
-                    !print *, "stringmod: temp_str: ", temp_str
+                    temp_str = str(delimpos(i-1)+1:delimpos(i)-1)
+                    !print *, "stringmod: temp_str: ", temp_str, " i: ", i
                     array(i) = str2int(temp_str)
                 end if
                 
                 if (i .eq. count +1) then
-                    temp_str = str(delimpos(count):length)
-                    !print *, "stringmod: temp_str: ", temp_str
+                    temp_str = str(delimpos(count)+1:length)
+                    !print *, "stringmod: temp_str: ", temp_str, " i: ", i
                     array(i) = str2int(temp_str)
                 end if               
             end do
@@ -183,5 +189,24 @@ module stringmod
             i = -huge(i)
         end if
     end function str2int16
+
+    function containschar(str, ch) result(results)
+        character(len=*), intent(in) :: str
+        character(len=1), intent(in) :: ch
+        logical :: results
+        integer :: i, length
+
+        i = 0
+        length = 0
+
+        length = len_trim(str)
+        do i=1,length
+            if (str(i:i) .eq. ch) then
+                results = .true.
+                return
+            end if
+        end do
+        results = .false.
+    end function containschar
 
 end module stringmod
