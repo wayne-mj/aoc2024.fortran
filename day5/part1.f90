@@ -33,6 +33,7 @@ program part1
         !print *, setofupdates
         do i=1, size(setofupdates) -1
             do j=1, (size(setofrules) / 2)
+                !print *, "setofrules(j,1): ", setofrules(j,1), " setofupdates(i+1): ", setofupdates(i+1) , " setofrules(j,2): ", setofrules(j,2), " setofupdates(i): ", setofupdates(i)
                 if (all(setofrules(:,j) .eq. [setofupdates(i+1), setofupdates(i)]))then
                     match = .true.
                 end if
