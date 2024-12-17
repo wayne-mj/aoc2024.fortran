@@ -101,14 +101,14 @@ program part1
             integer, intent(in) :: rulesize
             integer, allocatable :: rulesetint (:,:)
             integer, allocatable :: tempint(:)
-            integer :: i
+            integer :: ii
 
             allocate(rulesetint(rulesize,2))
-            do i=1,rulesize
-                tempint = str2intarray(rulesetstr(i),pipedelim)
+            do ii=1,rulesize
+                tempint = str2intarray(rulesetstr(ii),pipedelim)
                 ! Reverse the order of the rule set
-                rulesetint(i,2) = tempint(1)
-                rulesetint(i,1) = tempint(2)
+                rulesetint(ii,2) = tempint(1)
+                rulesetint(ii,1) = tempint(2)
             end do
         end function
     
