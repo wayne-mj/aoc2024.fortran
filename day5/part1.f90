@@ -30,19 +30,26 @@ program part1
 
     do k=1, updates
         setofupdates = str2intarray(updateset(k),commadelim)
-        print *, setofupdates
+        !print *, setofupdates
         do i=1, size(setofupdates) -1
             do j=1, (size(setofrules) / 2)
                 if (all(setofrules(:,j) .eq. [setofupdates(i+1), setofupdates(i)]))then
                     match = .true.
                 end if
+                !print *, "setofrules(j,1): ", setofrules(j,1), " setofupdates(i+1): ", setofupdates(i+1) , " setofrules(j,2): ", setofrules(j,2), " setofupdates(i): ", setofupdates(i)
+                ! if ((setofrules(1,j) .eq. setofupdates(i+1)) .and. (setofrules(2,j) .eq. setofupdates(i))) then
+                !     match = .true.
+                ! end if
             end do
         end do
-        print *, match
+        ! print *, match
         if (.not. match) then
             t = (size(setofupdates) /2) +1
+            ! print *, ""
+            ! print *, "setofupdates: ", setofupdates
+            ! print *, "setofupdates(t): ", setofupdates(t)
             mid = mid + setofupdates(t)
-            print *,mid
+            ! print *,"mid: ", mid
             match = .false.
         end if
     end do
