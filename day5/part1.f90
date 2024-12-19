@@ -7,15 +7,16 @@ program part1
     integer :: fileid, ierr
     character (len=32) :: filename
     character(len=128), allocatable :: ruleset(:), updateset(:)
-    integer :: rules, updates , i ,j , k , mid, t
+    integer :: rules, updates , i ,j , k , mid, t, count
     integer, allocatable :: setofrules(:,:)
     integer, allocatable :: setofupdates (:)
     logical :: match
     
     filename = ""
     fileid = 8
-    match = .false.
+    
     mid =0
+    count = 0
 
     call get_command_argument(1, filename, STATUS=ierr)
     if (ierr .ne. 0) then
@@ -29,33 +30,30 @@ program part1
     setofrules = makerules(ruleset, rules)
 
     do k=1, updates
+        match = .false.
         setofupdates = str2intarray(updateset(k),commadelim)
-        !print *, setofupdates
         do i=1, size(setofupdates) -1
             do j=1, (size(setofrules) / 2)
-                !print *, "setofrules(j,1): ", setofrules(j,1), " setofupdates(i+1): ", setofupdates(i+1) , " setofrules(j,2): ", setofrules(j,2), " setofupdates(i): ", setofupdates(i)
-                if (all(setofrules(:,j) .eq. [setofupdates(i+1), setofupdates(i)]))then
+                if (all(setofrules(j,:) .eq. [setofupdates(i+1), setofupdates(i)]))then
                     match = .true.
                 end if
-                !print *, "setofrules(j,1): ", setofrules(j,1), " setofupdates(i+1): ", setofupdates(i+1) , " setofrules(j,2): ", setofrules(j,2), " setofupdates(i): ", setofupdates(i)
-                ! if ((setofrules(1,j) .eq. setofupdates(i+1)) .and. (setofrules(2,j) .eq. setofupdates(i))) then
+                
+                ! if ((setofrules(j,1) .eq. setofupdates(i+1)) .and. (setofrules(j,2) .eq. setofupdates(i))) then
                 !     match = .true.
+                !     exit
                 ! end if
             end do
         end do
-        ! print *, match
         if (.not. match) then
             t = (size(setofupdates) /2) +1
-            ! print *, ""
-            ! print *, "setofupdates: ", setofupdates
-            ! print *, "setofupdates(t): ", setofupdates(t)
             mid = mid + setofupdates(t)
-            ! print *,"mid: ", mid
-            match = .false.
+            count = count + 1
         end if
     end do
 
+    print *, ""
     print *, mid
+    print *, count
 
     contains
         subroutine getsetsize(rs, us, ri, ui)
@@ -107,8 +105,8 @@ program part1
             do ii=1,rulesize
                 tempint = str2intarray(rulesetstr(ii),pipedelim)
                 ! Reverse the order of the rule set
-                rulesetint(ii,2) = tempint(1)
-                rulesetint(ii,1) = tempint(2)
+                rulesetint(ii,1) = tempint(1)
+                rulesetint(ii,2) = tempint(2)
             end do
         end function
     
