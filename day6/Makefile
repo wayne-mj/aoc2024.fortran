@@ -12,10 +12,10 @@ BASE2=$(PROG2:.f90=)
 %.o: %.f90
 	$(FC) $(FFLAGS) -o $@ -c $<
 
-$(BASE1): $(OBJ) $(PROG1:.f90=.o)
+$(BASE1): clean $(OBJ) $(PROG1:.f90=.o)
 	$(FC) $(FFLAGS) -o $@ $(OBJ) $(PROG1:.f90=.o)
 
-$(BASE2): $(OBJ) $(PROG2:.f90=.o)
+$(BASE2): clean $(OBJ) $(PROG2:.f90=.o)
 	$(FC) $(FFLAGS) -o $@ $(OBJ) $(PROG2:.f90=.o)
 
 all: $(BASE1) $(BASE2)

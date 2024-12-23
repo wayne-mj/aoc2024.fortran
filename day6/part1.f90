@@ -102,7 +102,7 @@ program part1
             d = .false.
             u = .false.
 
-            mysleep = 10
+            mysleep = 5
 
             !! Revert to 0
             moves = 0
@@ -121,6 +121,7 @@ program part1
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         print *, char(27)//'[2J'
                         print *, char(27)//'[H'
+                        !call msdelay(mysleep)
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
@@ -153,6 +154,7 @@ program part1
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         print *, char(27)//'[2J'
                         print *, char(27)//'[H'
+                        !call msdelay(mysleep)
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
@@ -185,6 +187,7 @@ program part1
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         print *, char(27)//'[2J'
                         print *, char(27)//'[H'
+                        !call msdelay(mysleep)
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
@@ -217,6 +220,7 @@ program part1
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         print *, char(27)//'[2J'
                         print *, char(27)//'[H'
+                        !call msdelay(mysleep)
                         do mapview=1, length
                             print *, trim(map(mapview))
                         end do
