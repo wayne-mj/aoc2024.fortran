@@ -102,7 +102,7 @@ program part1
             d = .false.
             u = .false.
 
-            mysleep = 5
+            mysleep = 35
 
             !! Revert to 0
             moves = 0
@@ -114,8 +114,8 @@ program part1
                     testposy = t%y-1
                     !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        if (map(t%y)(t%x:t%x) .ne. "X") then
-                            map(t%y)(t%x:t%x) = "X"
+                        if (map(t%y)(t%x:t%x) .ne. "*") then
+                            map(t%y)(t%x:t%x) = "*"
                             moves = moves + 1
                         end if
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -147,8 +147,8 @@ program part1
                     testposy = t%y
                     !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        if (map(t%y)(t%x:t%x) .ne. "X") then
-                            map(t%y)(t%x:t%x) = "X"
+                        if (map(t%y)(t%x:t%x) .ne. "*") then
+                            map(t%y)(t%x:t%x) = "*"
                             moves = moves + 1
                         end if
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -180,8 +180,8 @@ program part1
                     testposy = t%y + 1
                     !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        if (map(t%y)(t%x:t%x) .ne. "X") then
-                            map(t%y)(t%x:t%x) = "X"
+                        if (map(t%y)(t%x:t%x) .ne. "*") then
+                            map(t%y)(t%x:t%x) = "*"
                             moves = moves + 1
                         end if
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -213,8 +213,8 @@ program part1
                     testposy = t%y
                     !print *, trim(map(testposy)(testposx:testposx)), " : ", testposx, testposy
                     if (trim(map(testposy)(testposx:testposx)) .ne. "#") then
-                        if (map(t%y)(t%x:t%x) .ne. "X") then
-                            map(t%y)(t%x:t%x) = "X"
+                        if (map(t%y)(t%x:t%x) .ne. "*") then
+                            map(t%y)(t%x:t%x) = "*"
                             moves = moves + 1
                         end if
                         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -241,6 +241,22 @@ program part1
                 end if
             end do
         end function
+
+        ! subroutine updatescreen(map, moves, mysleep)
+        !     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        !     print *, char(27)//'[2J'
+        !     print *, char(27)//'[H'
+        !     !call msdelay(mysleep)
+        !     do mapview=1, length
+        !         print *, trim(map(mapview))
+        !     end do
+        !     print *, " "
+        !     write(movestr, '(I10)') moves
+        !     print *, "Moves: ", movestr
+        !     call msdelay(mysleep)
+        !     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        ! end subroutine updatescreen
 
         ! subroutine msdelay(delayms)
         !     integer :: delayms
